@@ -1,0 +1,157 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap');
+
+:root {
+  --primary: #301b0f;
+  --primary-dark: #4a2b16;
+  --gray-soft: #7a7a7a;
+  --brown-light: #AC7851;
+  --background: #f9f9f9;
+}
+
+body {
+  margin: 0;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.register-container {
+  display: flex;
+  height: 100vh;
+  background-color: var(--background);
+  background-image: url("../assets/background.png");
+  background-size: cover;
+  background-position: center;
+}
+
+.register-left {
+  width: 50%;
+  position: relative;
+  padding: 2rem;
+}
+
+.register-logo {
+  width: 140px;
+}
+
+.register-beans {
+  max-width: 90%;
+  height: auto;
+  transform: translateY(30px);
+}
+
+.register-right {
+  width: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.register-box {
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+}
+
+h1 {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 0.5rem;
+}
+
+.register-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 1rem 0;
+}
+
+.register-tabs button {
+  background: none;
+  border: none;
+  font-weight: 300;
+  font-size: 18px;
+  cursor: pointer;
+  color: var(--gray-soft);
+  border-bottom: 2px solid transparent;
+  padding-bottom: 4px;
+}
+
+.register-tabs button.active {
+  color: var(--brown-light);
+  border-bottom: 2px solid var(--brown-light);
+}
+
+.subtitle {
+  color: var(--gray-soft);
+  margin-bottom: 1.5rem;
+  font-size: 14px;
+}
+
+.google-button {
+  margin-bottom: 1rem;
+}
+
+.google-button button {
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  padding: 0.5rem;
+  cursor: pointer;
+}
+
+.google-button img {
+  width: 30px;
+  height: 30px;
+}
+
+.or {
+  font-size: 14px;
+  color: var(--gray-soft);
+  margin-bottom: 1rem;
+}
+
+form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 999px;
+  font-size: 14px;
+}
+
+.submit-btn {
+  background-color: var(--primary);
+  color: white;
+  padding: 12px 24px;
+  width: 100%;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 14px;
+  margin-bottom: 1.5rem;
+}
+
+.submit-btn:hover {
+  background-color: var(--primary-dark);
+}
+
+.login-link {
+  font-size: 14px;
+  color: var(--gray-soft);
+  text-align: center;
+}
+
+.login-link span {
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+footer {
+  margin-top: 1.5rem;
+  font-size: 12px;
+  text-align: center;
+  color: #aaa;
+}

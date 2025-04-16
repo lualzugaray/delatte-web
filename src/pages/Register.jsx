@@ -1,107 +1,178 @@
-import { useAuth0 } from "@auth0/auth0-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import logo from "../assets/logo.png";
 import beans from "../assets/beans.png";
+import "../styles/register.css";
 
 export default function Register() {
-  const { loginWithRedirect } = useAuth0();
+  const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     email: "",
+    password: "",
     nombre: "",
     apellido: "",
-    password: "",
     confirmPassword: ""
   });
 
+  const [activeTab, setActiveTab] = useState("client");
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form submitted:", formData);
+    setError(null);
+    setLoading(true);
+
+    try {
+      // 1. Registro en Auth0
+      const signupRes = await fetch(
+        "https://dev-d82ap42lb6n7381y.us.auth0.com/dbconnections/signup",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
+            email: formData.email,
+            password: formData.password,
+            connection: "Username-Password-Authentication",
+            name: `${formData.nombre} ${formData.apellido}`
+          })
+        }
+      );
+
+      if (!signupRes.ok) {
+        const error = await signupRes.json();
+        throw new Error(error.description || "Error al registrarse");
+      }
+
+      const tokenRes = await fetch(`${import.meta.env.VITE_API_URL}/auth0-login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password
+        })
+      });
+      
+      const tokenData = await tokenRes.json();
+      
+      if (!tokenRes.ok) throw new Error(tokenData.error || "Error al loguearse con Auth0");
+      
+      const accessToken = tokenData.access_token;
+
+      // 3. Sync con tu backend
+      const payload = {
+        email: formData.email,
+        firstName: formData.nombre,
+        lastName: formData.apellido,
+        profilePicture: ""
+      };
+
+      const endpoint = activeTab === "manager" ? "/sync-manager" : "/sync-client";
+
+      const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${accessToken}`
+        },
+        body: JSON.stringify(payload)
+      });
+      
+      if (!res.ok) {
+        const errorData = await res.text(); // <-- si no es JSON
+        console.error("Sync error:", errorData);
+        throw new Error("Falló el sync con el backend");
+      }      
+
+      const data = await res.json();
+
+      localStorage.setItem("jwt", data.token);
+
+      // 4. Redireccionar según tipo
+      navigate(activeTab === "manager" ? "/register-cafe" : "/explorar");
+    } catch (err) {
+      if (typeof err === "string") {
+        setError(err);
+      } else if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError("Ocurrió un error inesperado.");
+      }    
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
-    <div className="h-screen w-screen flex font-montserrat bg-background overflow-hidden">
-      {/* Columna izquierda con logo y granos */}
-      <div className="w-1/2 h-full relative p-6">
-        <img src={logo} alt="Delatte Logo" className="w-10 h-20 object-contain" />
-
-        <div className="h-full flex items-center justify-center">
-          <img src={beans} alt="Coffee beans" className="w-[90%] max-h-[400px] object-contain mx-auto" />
-        </div>
+    <div className="register-container">
+      <div className="register-left">
+        <img src={logo} alt="Logo Delatte" className="register-logo" />
+        <img src={beans} alt="Coffee beans" className="register-beans" />
       </div>
 
-      {/* Columna derecha con el formulario */}
-      <div className="w-1/2 h-full flex flex-col items-center justify-center px-10">
-        <div className="w-full max-w-md">
-          <h1 className="text-3xl font-bold text-primary mb-2">¡unite a delatte!</h1>
-          <p className="text-sm text-graySoft mb-6">registrate para continuar</p>
+      <div className="register-right">
+        <div className="register-box">
+          <h1>¡unite a delatte!</h1>
 
-          {/* Botón de Google */}
-          <div className="mb-4 flex justify-center">
+          {/* Tabs */}
+          <div className="register-tabs">
             <button
-              onClick={() => loginWithRedirect({ screen_hint: "signup" })}
-              className="flex items-center justify-center bg-white border border-gray-300 rounded-full p-2 hover:bg-gray-100"
+              className={activeTab === "client" ? "active" : ""}
+              onClick={() => setActiveTab("client")}
             >
-              <img
-                src="https://cdn.cdnlogo.com/logos/g/35/google-icon.svg"
-                alt="Google"
-                className="w-6 h-6"
-              />
+              cliente
+            </button>
+            <button
+              className={activeTab === "manager" ? "active" : ""}
+              onClick={() => setActiveTab("manager")}
+            >
+              manager
             </button>
           </div>
 
-          <p className="text-sm text-graySoft mb-4 text-center">o usa tu correo electrónico</p>
+          <p className="subtitle">registrate para continuar</p>
+
+          {error && <p className="error">{error}</p>}
 
           <form onSubmit={handleSubmit}>
-            {[
-              { type: "email", name: "email", placeholder: "correo electrónico" },
-              { type: "text", name: "nombre", placeholder: "nombre" },
-              { type: "text", name: "apellido", placeholder: "apellido" },
-              { type: "password", name: "password", placeholder: "contraseña" },
-              { type: "password", name: "confirmPassword", placeholder: "confirmar contraseña" },
-            ].map(({ type, name, placeholder }) => (
-              <div className="mb-4" key={name}>
-                <input
-                  type={type}
-                  name={name}
-                  placeholder={placeholder}
-                  value={formData[name]}
-                  onChange={handleChange}
-                  className="w-full p-3 border border-gray-300 rounded-full text-sm"
-                  required
-                />
-              </div>
+            {["email", "nombre", "apellido", "password", "confirmPassword"].map((field) => (
+              <input
+                key={field}
+                type={field.includes("password") ? "password" : "text"}
+                name={field}
+                placeholder={
+                  field === "email"
+                    ? "correo electrónico"
+                    : field === "confirmPassword"
+                    ? "confirmar contraseña"
+                    : field
+                }
+                value={formData[field]}
+                onChange={handleChange}
+                required
+              />
             ))}
 
-            <div className="flex justify-center mb-6">
-              <button
-                type="submit"
-                className="bg-primary text-white py-2 px-8 rounded-full text-sm hover:bg-primaryDark"
-              >
-                crear cuenta
-              </button>
-            </div>
+            <button type="submit" className="submit-btn" disabled={loading}>
+              {loading
+                ? "Creando cuenta..."
+                : activeTab === "manager"
+                ? "continuar registrando cafetería"
+                : "crear cuenta"}
+            </button>
           </form>
 
-          <p className="text-sm text-graySoft text-center">
-            ¿ya tenes una cuenta?{" "}
-            <span
-              onClick={() => loginWithRedirect()}
-              className="text-primary underline cursor-pointer"
-            >
-              inicia sesión aquí
-            </span>
+          <p className="login-link">
+            ¿ya tenes una cuenta? <span>inicia sesión aquí</span>
           </p>
 
-          <div className="mt-8 text-xs text-gray-400 text-center">
-            © 2025 Delatte — hecho con ☕
-          </div>
+          <footer>© 2025 Delatte — hecho con ☕</footer>
         </div>
       </div>
     </div>
