@@ -1,0 +1,79 @@
+.featured-cafes {
+    text-align: center;
+    padding: 60px 20px;
+  }
+  
+  .featured-cafes h3 {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #3d1f0f;
+  }
+  
+  .featured-cafes h3 .brown {
+    color: #b47940;
+    font-weight: 600;
+  }
+  
+  .featured-cafes .subtitle {
+    margin-top: 4px;
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .cafes-grid {
+    display: flex;
+    justify-content: center;
+    gap: 36px;
+    flex-wrap: wrap;
+    margin-top: 40px;
+  }
+  
+  .cafe-card {
+    background: white;
+    border: 1px solid #ddd;
+    width: 260px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+    border-radius: 4px;
+    transition: transform 0.2s ease;
+  }
+  
+  .cafe-card:hover {
+    transform: translateY(-4px);
+  }
+  
+  .cafe-img {
+    width: 100%;
+    height: 170px;
+    object-fit: cover;
+    border-radius: 2px;
+    margin-bottom: 12px;
+  }
+  
+  .cafe-card h4 {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #3d1f0f;
+    margin: 0;
+    text-align: left;
+  }
+  
+  .cafe-card .desc {
+    color: #333;
+    font-size: 0.95rem;
+    text-align: left;
+    margin: 4px 0 10px;
+  }
+  
+  .stars {
+    color: #b47940;
+    font-size: 1.4rem;
+    text-align: left;
+  }
+  
+  .empty-message {
+    margin-top: 20px;
+    font-style: italic;
+    color: #777;
+  }
+  
