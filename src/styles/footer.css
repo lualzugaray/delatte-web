@@ -1,0 +1,51 @@
+.footer {
+    background-color: #2a1205;
+    color: white;
+    padding: 60px 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    font-family: "Montserrat", sans-serif;
+  }
+  
+  .footer-left {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    text-align: left;
+  }
+  
+  .footer-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  
+  .footer-nav a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    text-align: left;
+  }
+  
+  .instagram-icon {
+    color: white;
+    font-size: 26px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-top: 10px;
+  }
+  
+  .footer-right {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-end;
+    font-size: 1rem;
+    white-space: nowrap;
+    text-align: right;
+    flex-direction: column;
+    gap: 14px;
+  }
+  

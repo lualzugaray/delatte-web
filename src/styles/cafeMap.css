@@ -1,0 +1,12 @@
+.cafe-map-container {
+    padding: 0 100px 100px;
+    text-align: center;
+  }
+  
+  .no-cafes-text {
+    margin-top: 12px;
+    color: #555;
+    font-size: 0.95rem;
+    font-style: italic;
+  }
+  
