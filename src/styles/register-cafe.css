@@ -1,0 +1,221 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #3e2414;
+    font-weight: 700;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.formGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+}
+
+.formLeft,
+.formRight {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    color: #3e2414;
+}
+
+.input,
+.textarea {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.4rem;
+}
+
+.input.short {
+    max-width: 250px;
+}
+
+.textarea {
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 140px;
+    resize: vertical;
+}
+
+.checkboxGroup {
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 1rem;
+    color: #3e2414;
+}
+
+.checkboxGroup label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+input[type="checkbox"] {
+    width: 20%;
+}
+
+
+.tagSelectWrapper {
+    overflow-x: auto;
+}
+
+.tagSelect {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tagOption {
+    background-color: #eee;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tagOption.selected {
+    background-color: #6b4226;
+    color: white;
+}
+
+.tagOption.moreButton {
+    background-color: #d2b48c;
+    color: #333;
+}
+
+.formRow.categoryRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+}
+
+.suggestButton {
+    padding: 0.75rem 2rem;
+    background-color: #6b4226;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestButton:hover {
+    background-color: #4a2f1a;
+}
+
+.tagList {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.tag {
+    background-color: #f1f1f1;
+    padding: 0.3rem 0.6rem;
+    border-radius: 1rem;
+}
+
+.scheduleGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 100px 120px 120px);
+    gap: 1rem 2rem;
+    align-items: center;
+    margin-top: 1rem;
+    justify-content: center;
+}
+
+.day {
+    font-weight: bold;
+    text-transform: capitalize;
+    color: #000;
+}
+
+.timeGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+.timeLabel {
+    font-size: 0.9rem;
+    color: #6b4226;
+    margin-left: 2px;
+}
+
+.timeInput {
+    padding: 0.4rem;
+    font-size: 0.9rem;
+    border: 1px solid #ccc;
+    border-radius: 0.3rem;
+}
+
+.error {
+    color: red;
+}
+
+.success {
+    color: green;
+}
+
+.submit {
+    padding: 0.75rem 2rem;
+    background-color: #6b4226;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submit:hover {
+    background-color: #4a2f1a;
+}
+
+.checkboxes {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 1rem;
+}
+
+.checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: #f8f5f1;
+    border: 1px solid #d6c3ad;
+    border-radius: 2rem;
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    color: #3e2414;
+}
+
+.submitContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}

@@ -18,6 +18,7 @@ export default function Register() {
   const [activeTab, setActiveTab] = useState("client");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [stage, setStage] = useState("form"); // 'form' o 'verify'
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,7 +30,7 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // 1. Registro en Auth0
+      // 1. Registrar en Auth0
       const signupRes = await fetch(
         "https://dev-d82ap42lb6n7381y.us.auth0.com/dbconnections/signup",
         {
@@ -46,64 +47,89 @@ export default function Register() {
       );
 
       if (!signupRes.ok) {
-        const error = await signupRes.json();
-        throw new Error(error.description || "Error al registrarse");
+        const errorData = await signupRes.json();
+
+        if (
+          errorData.code === "invalid_signup" &&
+          errorData.description === "Invalid sign up"
+        ) {
+          setError(
+            "Este correo ya está registrado. Iniciá sesión para registrar tu cafetería."
+          );
+        } else {
+          setError(errorData.description || "Ocurrió un error al registrarte.");
+        }
+
+        return;
       }
 
-      const tokenRes = await fetch(`${import.meta.env.VITE_API_URL}/auth0-login`, {
+      // 2. Mostrar pantalla de verificación para ambos roles
+      setStage("verify");
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleVerifyAndSync = async () => {
+    setError(null);
+    setLoading(true);
+
+    try {
+      // 1. Login para obtener el token
+      const loginRes = await fetch("https://dev-d82ap42lb6n7381y.us.auth0.com/oauth/token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
+          grant_type: "password",
+          username: formData.email,
+          password: formData.password,
+          audience: import.meta.env.VITE_AUTH0_AUDIENCE,
+          client_id: import.meta.env.VITE_AUTH0_CLIENT_ID,
+          client_secret: import.meta.env.VITE_AUTH0_CLIENT_SECRET
         })
       });
-      
-      const tokenData = await tokenRes.json();
-      
-      if (!tokenRes.ok) throw new Error(tokenData.error || "Error al loguearse con Auth0");
-      
-      const accessToken = tokenData.access_token;
 
-      // 3. Sync con tu backend
-      const payload = {
-        email: formData.email,
-        firstName: formData.nombre,
-        lastName: formData.apellido,
-        profilePicture: ""
-      };
+      const loginData = await loginRes.json();
+      if (!loginRes.ok) throw new Error(loginData.error_description || "Error al iniciar sesión");
 
-      const endpoint = activeTab === "manager" ? "/sync-manager" : "/sync-client";
+      const token = loginData.access_token;
+      localStorage.setItem("token", token);
 
-      const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+      // 2. Sync con backend según rol
+      const syncEndpoint =
+        activeTab === "manager"
+          ? `${import.meta.env.VITE_API_URL}/sync-manager`
+          : `${import.meta.env.VITE_API_URL}/sync-client`;
+
+      const syncRes = await fetch(syncEndpoint, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json"
         },
-        body: JSON.stringify(payload)
+        body: JSON.stringify({
+          email: formData.email,
+          firstName: formData.nombre,
+          lastName: formData.apellido,
+          profilePicture: ""
+        })
       });
-      
-      if (!res.ok) {
-        const errorData = await res.text(); // <-- si no es JSON
-        console.error("Sync error:", errorData);
-        throw new Error("Falló el sync con el backend");
-      }      
 
-      const data = await res.json();
+      if (!syncRes.ok) {
+        const error = await syncRes.json();
+        throw new Error(error.message || "Error al sincronizar usuario");
+      }
 
-      localStorage.setItem("jwt", data.token);
-
-      // 4. Redireccionar según tipo
-      navigate(activeTab === "manager" ? "/register-cafe" : "/explorar");
-    } catch (err) {
-      if (typeof err === "string") {
-        setError(err);
-      } else if (err instanceof Error) {
-        setError(err.message);
+      // 3. Redirección
+      if (activeTab === "manager") {
+        navigate("/register-cafe");
       } else {
-        setError("Ocurrió un error inesperado.");
-      }    
+        navigate("/explore");
+      }
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
     } finally {
       setLoading(false);
     }
@@ -120,56 +146,84 @@ export default function Register() {
         <div className="register-box">
           <h1>¡unite a delatte!</h1>
 
-          {/* Tabs */}
           <div className="register-tabs">
             <button
               className={activeTab === "client" ? "active" : ""}
-              onClick={() => setActiveTab("client")}
+              onClick={() => { setActiveTab("client"); setStage("form"); }}
             >
               cliente
             </button>
             <button
               className={activeTab === "manager" ? "active" : ""}
-              onClick={() => setActiveTab("manager")}
+              onClick={() => { setActiveTab("manager"); setStage("form"); }}
             >
               manager
             </button>
           </div>
 
           <p className="subtitle">registrate para continuar</p>
+          {activeTab === "manager" && (
+            <div className="info-box">
+              <p>
+                <strong>¿Sos el encargado de una cafetería?</strong><br />
+                Para poder registrar tu café en Delatte, primero necesitamos que crees tu cuenta como <strong>usuario manager</strong>.
+              </p>
+              <p>
+                Una vez que completes este formulario, te llevaremos automáticamente al registro de tu cafetería. 😊
+              </p>
+            </div>
+          )}
 
           {error && <p className="error">{error}</p>}
 
-          <form onSubmit={handleSubmit}>
-            {["email", "nombre", "apellido", "password", "confirmPassword"].map((field) => (
-              <input
-                key={field}
-                type={field.includes("password") ? "password" : "text"}
-                name={field}
-                placeholder={
-                  field === "email"
-                    ? "correo electrónico"
-                    : field === "confirmPassword"
-                    ? "confirmar contraseña"
-                    : field
-                }
-                value={formData[field]}
-                onChange={handleChange}
-                required
-              />
-            ))}
+          {stage === "form" && (
+            <form onSubmit={handleSubmit}>
+              {["email", "nombre", "apellido", "password", "confirmPassword"].map((field) => (
+                <input
+                  key={field}
+                  type={field.includes("password") ? "password" : "text"}
+                  name={field}
+                  placeholder={
+                    field === "email"
+                      ? "correo electrónico"
+                      : field === "confirmPassword"
+                        ? "confirmar contraseña"
+                        : field
+                  }
+                  value={formData[field]}
+                  onChange={handleChange}
+                  required
+                />
+              ))}
 
-            <button type="submit" className="submit-btn" disabled={loading}>
-              {loading
-                ? "Creando cuenta..."
-                : activeTab === "manager"
-                ? "continuar registrando cafetería"
-                : "crear cuenta"}
-            </button>
-          </form>
+              <button type="submit" className="submit-btn" disabled={loading}>
+                {loading
+                  ? "Creando cuenta..."
+                  : activeTab === "manager"
+                    ? "crear cuenta de manager"
+                    : "crear cuenta"}
+              </button>
+            </form>
+          )}
+
+          {stage === "verify" && (
+            <div className="verify-box">
+              <p className="success">
+                🎉 Te registraste como {activeTab}.<br />
+                Verificá tu email para continuar.
+              </p>
+              <button
+                onClick={handleVerifyAndSync}
+                className="submit-btn"
+                disabled={loading}
+              >
+                {loading ? "Verificando..." : "ya verifiqué mi email"}
+              </button>
+            </div>
+          )}
 
           <p className="login-link">
-            ¿ya tenes una cuenta? <span>inicia sesión aquí</span>
+            ¿ya tenes una cuenta? <span onClick={() => navigate("/login")}>inicia sesión aquí</span>
           </p>
 
           <footer>© 2025 Delatte — hecho con ☕</footer>
