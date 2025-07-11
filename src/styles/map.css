@@ -1,0 +1,22 @@
+.map-container {
+    height: calc(100vh - 80px);
+    /* Ajustar según el alto del Navbar */
+    width: 100%;
+    z-index: 1;
+}
+
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+}
+
+.custom-marker-icon span {
+    font-size: 28px;
+    color: #6B4226;
+    background: white;
+    border-radius: 50%;
+    padding: 4px;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.3);
+    line-height: 1;
+}

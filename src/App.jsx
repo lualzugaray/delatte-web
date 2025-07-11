@@ -6,6 +6,7 @@ import Login from "./pages/Login";
 import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import RegisterCafe from "./pages/RegisterCafe";
+import Map from "./pages/Map";
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
         <Route path="/profile" element={<Profile />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register-cafe" element={<RegisterCafe />} />
+        <Route path="/map" element={<Map />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </Router>
