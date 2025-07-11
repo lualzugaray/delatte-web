@@ -6,15 +6,29 @@ import QuickCategories from "../components/QuickCategories";
 import FeaturedCafes from "../components/FeaturedCafes";
 import CafeMap from "../components/CafeMap";
 import Footer from "../components/Footer";
+import { useNavigate } from "react-router-dom";
 
 export default function Home() {
+  const navigate = useNavigate();
   const [search, setSearch] = useState("");
-
   const [cafes, setCafes] = useState([]);
 
   useEffect(() => {
-    axios.get("/api/cafes")
-      .then((res) => setCafes(res.data))
+    axios.get(`${import.meta.env.VITE_API_URL}/cafes`)
+      .then((res) => {
+        console.log("📍 Tipo de respuesta:", typeof res.data);
+        console.log("📍 Respuesta completa:", res.data);
+
+        if (Array.isArray(res.data)) {
+          res.data.forEach((cafe) => {
+            console.log(cafe.name, cafe.location);
+          });
+          setCafes(res.data);
+        } else {
+          console.error("❌ La respuesta no es un array:", res.data);
+        }
+      })
+
       .catch((err) => console.error("Error loading cafes:", err));
   }, []);
 
@@ -22,7 +36,7 @@ export default function Home() {
     <div className="home">
       <>
         <Navbar />
-        <div className="explore-container">
+        <div className="home">
           <section className="search-section">
             <div className="banner-left">
               <h2>
@@ -37,7 +51,10 @@ export default function Home() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <button>buscar 🔎</button>
+                <button onClick={() => navigate(`/explore?q=${encodeURIComponent(search)}`)}>
+
+                  buscar 🔎
+                </button>
               </div>
             </div>
             <div className="banner-right">
