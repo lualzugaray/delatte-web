@@ -2,8 +2,14 @@ import React, { useEffect, useState, Fragment } from "react";
 import { useNavigate } from "react-router-dom";
 import { createCafeService } from "../services/manager/cafe.service";
 import "../styles/register-cafe.css";
+import { useRef } from "react";
 
 export default function RegisterCafe() {
+
+    const cloudName = "dx4vlzl5r";
+    const uploadPreset = "delatte_unsigned";
+    const addressRef = useRef();
+
     const [form, setForm] = useState({
         name: "",
         address: "",
@@ -26,8 +32,11 @@ export default function RegisterCafe() {
         hasPowerOutlets: false,
         isPetFriendly: false,
         isDigitalNomadFriendly: false,
+
     });
 
+    const [gallery, setGallery] = useState([]);
+    const [coverImage, setCoverImage] = useState(null);
     const [categories, setCategories] = useState([]);
     const [newCategory, setNewCategory] = useState("");
     const [newCategories, setNewCategories] = useState([]);
@@ -54,12 +63,43 @@ export default function RegisterCafe() {
         };
 
         fetchCategories();
+        if (window.google && addressRef.current) {
+            const autocomplete = new window.google.maps.places.Autocomplete(addressRef.current, {
+                types: ["geocode"],
+                componentRestrictions: { country: "uy" },
+            });
+
+            autocomplete.addListener("place_changed", () => {
+                const place = autocomplete.getPlace();
+                const address = place.formatted_address;
+                const location = place.geometry?.location;
+
+                if (address && location) {
+                    setForm((prev) => ({
+                        ...prev,
+                        address,
+                        location: {
+                            lat: location.lat(),
+                            lng: location.lng(),
+                        },
+                    }));
+                }
+            });
+        }
+
     }, [token, navigate]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError(null);
         setSuccess(null);
+
+        if (!gallery.length) {
+            return setError("Debés subir al menos una imagen");
+        }
+        if (!coverImage) {
+            return setError("Seleccioná una imagen de portada");
+        }
 
         if (!form.name || !form.address) {
             return setError("Completá los campos obligatorios: nombre y dirección");
@@ -74,6 +114,8 @@ export default function RegisterCafe() {
         try {
             await createCafeService({
                 ...form,
+                gallery,
+                coverImage,
                 suggestedCategories: newCategories,
             }, token);
             setSuccess("Cafetería registrada con éxito");
@@ -83,6 +125,34 @@ export default function RegisterCafe() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleImageUpload = async (e) => {
+        const files = Array.from(e.target.files);
+        const uploadedImages = [];
+
+        for (const file of files) {
+            const formData = new FormData();
+            formData.append("file", file);
+            formData.append("upload_preset", uploadPreset);
+
+            try {
+                const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+                    method: "POST",
+                    body: formData,
+                });
+                const data = await res.json();
+                uploadedImages.push(data.secure_url);
+                if (file.size > 10 * 1024 * 1024) {
+                    return setError("El archivo excede los 10MB permitidos");
+                }
+
+            } catch (err) {
+                console.error("Error subiendo imagen a Cloudinary:", err);
+            }
+        }
+
+        setGallery((prev) => [...prev, ...uploadedImages]);
     };
 
     const handleAddNewCategory = () => {
@@ -112,7 +182,13 @@ export default function RegisterCafe() {
                         <input className="input" value={form.name} onChange={(e) => setForm({ ...form, name: e.target.value })} required />
 
                         <label className="label">Dirección</label>
-                        <input className="input" value={form.address} onChange={(e) => setForm({ ...form, address: e.target.value })} required />
+                        <input
+                            className="input"
+                            ref={addressRef}
+                            defaultValue={form.address}
+                            placeholder="Escribí y seleccioná una dirección"
+                            required
+                        />
 
                         <label className="label">Teléfono</label>
                         <input className="input" value={form.phone} onChange={(e) => setForm({ ...form, phone: e.target.value })} required />
@@ -135,6 +211,38 @@ export default function RegisterCafe() {
                             value={form.description}
                             onChange={(e) => setForm({ ...form, description: e.target.value })} required
                         />
+                        <label className="label">Imágenes</label>
+                        <input type="file" multiple accept="image/*" onChange={handleImageUpload} />
+
+                        <div className="image-preview-grid">
+                            {gallery.map((url, index) => (
+                                <div key={index} className="image-preview-card">
+                                    <img src={url} alt={`preview-${index}`} className="preview-img" />
+                                    <button
+                                        type="button"
+                                        className={`select-cover ${coverImage === url ? "selected" : ""}`}
+                                        onClick={() => setCoverImage(url)}
+                                    >
+                                        {coverImage === url ? "✅ Portada seleccionada" : "Seleccionar como portada"}
+                                    </button>
+                                    <button
+                                        type="button"
+                                        className="delete-img"
+                                        onClick={() => {
+                                            const newGallery = gallery.filter((u) => u !== url);
+                                            setGallery(newGallery);
+                                            if (coverImage === url) setCoverImage(null);
+                                            if (newGallery.length === 0 && fileInputRef.current) {
+                                                fileInputRef.current.value = null;
+                                            }
+                                        }}
+
+                                    >
+                                        ❌
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
 
                         <div className="checkboxes">
                             <label>

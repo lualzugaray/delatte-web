@@ -3,8 +3,6 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.2rem 3rem;
-    background-color: #fefefe;
-    background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
     font-family: 'Montserrat', sans-serif;
   }
   
@@ -12,6 +10,7 @@
   .logo {
     height: 42px;
     margin-right: 2rem;
+    cursor: pointer;
   }
   
   /* Contenedor para logo + enlaces */
@@ -34,6 +33,7 @@
     font-size: 1rem;
     position: relative;
     padding-bottom: 4px;
+    cursor: pointer;
   }
   
   .nav-links a.active::after {

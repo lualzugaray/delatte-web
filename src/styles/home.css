@@ -1,5 +1,6 @@
 .home {
     background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
+    font-family: 'Montserrat', sans-serif;
 }
 
 .search-section {
@@ -11,30 +12,30 @@
     padding: 4rem 6rem 5rem;
     position: relative;
     overflow: hidden;
-  }
-  
-  .banner-left {
+}
+
+.banner-left {
     flex: 1;
     max-width: 46%;
     margin-top: 1rem;
-  }
-  
-  .search-section h2 {
+}
+
+.search-section h2 {
     font-size: 2.9rem;
     font-weight: 700;
     color: #3d1f0f;
     margin-bottom: 0.6rem;
     line-height: 1.15;
-  }
-  
-  .search-section p {
+}
+
+.search-section p {
     color: #3d1f0f;
     font-size: 1.15rem;
     margin-bottom: 1.8rem;
     position: relative;
-  }
-  
-  .search-section::after {
+}
+
+.search-section::after {
     content: "";
     position: absolute;
     bottom: 0;
@@ -42,23 +43,23 @@
     width: calc(100% - 12rem);
     height: 1px;
     background-color: #ccc;
-  }
+}
 
-  .search-bar {
+.search-bar {
     display: flex;
     width: 100%;
     max-width: 540px;
-  }
-  
-  .search-bar input {
+}
+
+.search-bar input {
     flex: 1;
     padding: 1rem 1.2rem;
     border-radius: 50px 0 0 50px;
     border: 1px solid #3d1f0f;
     font-size: 1rem;
-  }
-  
-  .search-bar button {
+}
+
+.search-bar button {
     background-color: #3d1f0f;
     color: white;
     border: none;
@@ -66,9 +67,9 @@
     border-radius: 0 50px 50px 0;
     font-size: 1rem;
     cursor: pointer;
-  }
-  
-  .banner-right {
+}
+
+.banner-right {
     position: relative;
     flex: 1;
     max-width: 50%;
@@ -77,21 +78,20 @@
     align-items: flex-start;
     padding-top: 1rem;
     padding-right: 2rem;
-  }
-  
-  .coffee-img {
+}
+
+.coffee-img {
     width: 260px;
     position: relative;
     z-index: 2;
-    transform: translate(-40px, 10px); 
-  }  
-  
-  .beans-img {
+    transform: translate(-40px, 10px);
+}
+
+.beans-img {
     position: absolute;
     top: -100px;
     right: -100px;
     width: 470px;
     z-index: 1;
     pointer-events: none;
-  }
-  
+}

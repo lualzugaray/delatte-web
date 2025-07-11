@@ -52,10 +52,14 @@ export default function Register() {
         if (
           errorData.code === "invalid_signup" &&
           errorData.description === "Invalid sign up"
-        ) {
-          setError(
-            "Este correo ya está registrado. Iniciá sesión para registrar tu cafetería."
-          );
+        ) { 
+          if (activeTab === "manager") {
+            setError(
+              "Este correo ya está registrado. Iniciá sesión para registrar tu cafetería." 
+            );
+          } else {
+            setError("Este correo ya está registrado. Iniciá sesión.");
+          }
         } else {
           setError(errorData.description || "Ocurrió un error al registrarte.");
         }
@@ -126,7 +130,7 @@ export default function Register() {
       if (activeTab === "manager") {
         navigate("/register-cafe");
       } else {
-        navigate("/explore");
+        navigate("/");
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
@@ -209,7 +213,7 @@ export default function Register() {
           {stage === "verify" && (
             <div className="verify-box">
               <p className="success">
-                🎉 Te registraste como {activeTab}.<br />
+                🎉 Te registraste como {activeTab === "client" ? "cliente" : "manager"}.<br />
                 Verificá tu email para continuar.
               </p>
               <button

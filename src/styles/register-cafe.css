@@ -219,3 +219,42 @@ input[type="checkbox"] {
     justify-content: center;
     margin-top: 2rem;
 }
+
+.image-preview-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  
+  .image-preview-card {
+    position: relative;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 8px;
+    background-color: #fff7f1;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+  
+  .preview-img {
+    width: 150px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+  
+  .select-cover,
+  .delete-img {
+    font-size: 12px;
+    margin-top: 4px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6b4226;
+  }
+  
+  .select-cover.selected {
+    font-weight: bold;
+    color: green;
+  }
+  
