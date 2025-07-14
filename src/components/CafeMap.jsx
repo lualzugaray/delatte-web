@@ -15,7 +15,9 @@ const center = {
     lat: -34.9011,
     lng: -56.1645,
 };
+
 const libraries = ["places"];
+
 export default function CafeMap({ cafes = [] }) {
     const [selectedCafe, setSelectedCafe] = useState(null);
     const navigate = useNavigate();
@@ -24,6 +26,23 @@ export default function CafeMap({ cafes = [] }) {
         googleMapsApiKey: import.meta.env.VITE_GOOGLE_MAPS_KEY,
         libraries,
     });
+
+    const renderStars = (averageRating = 0) => {
+        const fullStars = Math.floor(averageRating);
+        const hasHalfStar = averageRating % 1 >= 0.25 && averageRating % 1 < 0.75;
+        const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
+        const stars = [];
+
+        for (let i = 0; i < fullStars; i++) stars.push("star");
+        if (hasHalfStar) stars.push("star_half");
+        for (let i = 0; i < emptyStars; i++) stars.push("star_border");
+
+        return stars.map((icon, i) => (
+            <span key={i} className="material-icons" style={{ fontSize: "18px", color: "#b47940" }}>
+                {icon}
+            </span>
+        ));
+    };
 
     if (loadError) {
         return <p className="error-text">❌ Error cargando el mapa de Google</p>;
@@ -66,10 +85,12 @@ export default function CafeMap({ cafes = [] }) {
                             <p style={{ margin: 0, fontSize: "0.85rem", color: "#444" }}>
                                 {selectedCafe.address || "Dirección no disponible"}
                             </p>
-                            <p style={{ margin: "6px 0", fontSize: "0.9rem", color: "#b47940" }}>
-                                {"★".repeat(Math.round(selectedCafe.averageRating || 0))}
-                                {"☆".repeat(5 - Math.round(selectedCafe.averageRating || 0))}
-                            </p>
+                            <div style={{ margin: "6px 0", display: "flex", alignItems: "center", gap: "4px" }}>
+                                {renderStars(selectedCafe.averageRating)}
+                                <span style={{ fontSize: "0.85rem", color: "#555" }}>
+                                    {selectedCafe.averageRating?.toFixed(1) || "0.0"}
+                                </span>
+                            </div>
                             <button
                                 onClick={() => navigate(`/cafeteria/${selectedCafe._id}`)}
                                 style={{
