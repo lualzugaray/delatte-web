@@ -1,4 +1,4 @@
-/* explore.css */
+@import "@fontsource/material-symbols-rounded";
 
 .explore-container {
     max-width: 1200px;
@@ -33,24 +33,30 @@
     cursor: pointer;
     font-family: 'Montserrat', sans-serif;
     transition: all 0.3s ease;
-  }
-  
-  .advanced-btn:hover {
+}
+
+.advanced-btn:hover {
     background-color: #3d1f0f;
     color: white;
-  }
-  
+}
+
+
+.clear-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
 
 .clear-btn {
-    margin-bottom: 20px;
     background: none;
     border: none;
-    color: #a35f3c;
-    font-weight: 600;
+    color: #b47940;
     cursor: pointer;
+    font-size: 0.95rem;
     text-decoration: underline;
-    font-size: 14px;
+    padding: 0.5rem 1rem;
 }
+
 
 .explore-loading,
 .explore-suggestions {
@@ -62,9 +68,10 @@
 
 .explore-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 24px;
     margin-top: 20px;
+    padding: 0 20px 60px 20px;
 }
 
 /*   
@@ -92,12 +99,12 @@
     flex-direction: column;
     justify-content: space-between;
     height: 360px;
-    /* o el alto que quieras fijo */
     padding: 16px;
     border-radius: 12px;
     background-color: #fffaf8;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
     overflow: hidden;
+    border: 1px solid #ddd;
     position: relative;
 }
 
@@ -118,12 +125,6 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-.cafe-card .cafe-rating {
-    font-size: 1.2rem;
-    color: #b47940;
-    margin-top: 8px;
 }
 
 .cafe-card:hover {
@@ -162,7 +163,7 @@
 }
 
 .cafe-card h4 {
-    font-size: 18px;
+    font-size: 14px;
     font-weight: 600;
     color: #6B4226;
     margin: 16px 16px 8px;
@@ -244,7 +245,6 @@
     justify-content: center;
     margin: 20px auto;
     max-width: 500px;
-    gap: 8px;
     display: flex;
     width: 100%;
     max-width: 540px;
@@ -274,4 +274,90 @@
 
 .explore-search-bar button:hover {
     background-color: #8c5d3a;
+}
+
+.cafe-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    color: #6B4226;
+    margin-top: 5px;
+    padding: 0 16px 16px;
+}
+
+.rating-number {
+    margin-left: 4px;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+
+/* Reemplaza tu regla actual .material-symbols-rounded */
+.material-symbols-rounded {
+    font-family: 'Material Symbols Rounded', sans-serif;
+    font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 20px;
+    color: #6B4226;
+}
+
+/* Específicamente para estrellas vacías */
+.material-symbols-rounded.star-empty {
+    font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    color: #ddd;
+}
+
+.spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 40px 0;
+}
+
+.spinner:after {
+    content: "";
+    width: 40px;
+    height: 40px;
+    border: 4px solid #ccc;
+    border-top-color: #6B4226;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+.cafe-card-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cafe-card-link:hover .cafe-card {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: box-shadow 0.3s ease;
+}
+
+.cafe-options-wrapper {
+    position: relative; /* Ensure absolute positioning works */
+  }
+  
+  .favorite-btn {
+    position: absolute;
+    left: 10px;
+    top: 10px; /* Adjust this to fit the design */
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+  }
+  
+  .cafe-options-icon {
+    position: absolute;
+    right: 10px; /* Keep the arrow on the right side */
+    top: 10px;
+  }
+  
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
