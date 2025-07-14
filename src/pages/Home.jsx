@@ -7,6 +7,7 @@ import FeaturedCafes from "../components/FeaturedCafes";
 import CafeMap from "../components/CafeMap";
 import Footer from "../components/Footer";
 import { useNavigate } from "react-router-dom";
+import { normalizeText } from "../utils/text";
 
 export default function Home() {
   const navigate = useNavigate();
@@ -51,8 +52,7 @@ export default function Home() {
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
                 />
-                <button onClick={() => navigate(`/explore?q=${encodeURIComponent(search)}`)}>
-
+                <button onClick={() => navigate(`/explore?q=${normalizeText(search)}`)}>
                   buscar 🔎
                 </button>
               </div>

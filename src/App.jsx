@@ -7,6 +7,8 @@ import Profile from "./pages/Profile";
 import Register from "./pages/Register";
 import RegisterCafe from "./pages/RegisterCafe";
 import Map from "./pages/Map";
+import CafeDetails from "./pages/CafeDetails";
+import MyCafe from "./pages/MyCafe";
 
 function App() {
   return (
@@ -16,6 +18,8 @@ function App() {
         <Route path="/explore" element={<Explore />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/my-cafe" element={<MyCafe />} />
+        <Route path="/cafes/:cafeId" element={<CafeDetails />} />
         <Route path="/register" element={<Register />} />
         <Route path="/register-cafe" element={<RegisterCafe />} />
         <Route path="/map" element={<Map />} />
