@@ -2,6 +2,8 @@
     max-width: 1000px;
     margin: 0 auto;
     padding: 2rem;
+    background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
+    font-family: 'Montserrat', sans-serif;
 }
 
 .title {
@@ -75,7 +77,6 @@ input[type="checkbox"] {
     width: 20%;
 }
 
-
 .tagSelectWrapper {
     overflow-x: auto;
 }
@@ -102,7 +103,12 @@ input[type="checkbox"] {
 
 .tagOption.moreButton {
     background-color: #d2b48c;
-    color: #333;
+    color: #fff;
+}
+
+.tagOption.moreButton:hover {
+    background-color:#6b4226 !important;
+    color: #fff;
 }
 
 .formRow.categoryRow {
@@ -136,11 +142,12 @@ input[type="checkbox"] {
     background-color: #f1f1f1;
     padding: 0.3rem 0.6rem;
     border-radius: 1rem;
+    font-size: 14px;
 }
 
 .scheduleGrid {
     display: grid;
-    grid-template-columns: repeat(2, 100px 120px 120px);
+    grid-template-columns: repeat(2, 100px 140px 140px);
     gap: 1rem 2rem;
     align-items: center;
     margin-top: 1rem;
@@ -225,36 +232,115 @@ input[type="checkbox"] {
     flex-wrap: wrap;
     gap: 12px;
     margin-top: 12px;
-  }
-  
-  .image-preview-card {
+}
+
+.image-preview-card {
     position: relative;
     border: 1px solid #ddd;
     border-radius: 12px;
     padding: 8px;
     background-color: #fff7f1;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
-  }
-  
-  .preview-img {
+}
+
+.preview-img {
     width: 150px;
     height: 100px;
     object-fit: cover;
     border-radius: 8px;
-  }
-  
-  .select-cover,
-  .delete-img {
+}
+
+.select-cover,
+.delete-img {
     font-size: 12px;
     margin-top: 4px;
     background: none;
     border: none;
     cursor: pointer;
     color: #6b4226;
-  }
-  
-  .select-cover.selected {
+}
+
+.select-cover.selected {
     font-weight: bold;
     color: green;
-  }
-  
+}
+
+/* Modal base */
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 999;
+}
+
+/* Contenido del modal */
+.modal-content {
+    background: #fff;
+    padding: 2rem;
+    border-radius: 16px;
+    width: 90%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+    font-family: 'Montserrat', sans-serif;
+}
+
+/* Título del modal */
+.modal-content h2 {
+    margin-top: 0;
+    font-size: 1.5rem;
+    color: #3d1f0f;
+}
+
+/* Botones de categorías dentro del modal */
+.modal-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 1rem;
+}
+
+.modal-tags .tagOption {
+    background-color: #eee;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 999px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.modal-tags .tagOption:hover {
+    background-color: #ddd;
+}
+
+.modal-tags .tagOption.selected {
+    background-color: #3d1f0f;
+    color: white;
+}
+
+/* Botón de cerrar modal */
+.closeModal {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.closeModal:hover {
+    color: #333;
+}
