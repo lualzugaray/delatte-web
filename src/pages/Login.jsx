@@ -52,6 +52,8 @@ export default function Login() {
       const userData = await userRes.json();
       if (!userRes.ok) throw new Error(userData.error || "Error al obtener rol del usuario");
 
+      localStorage.setItem("user", JSON.stringify(userData)); 
+
       const role = userData.role;
 
       // 3. Lógica para manager
