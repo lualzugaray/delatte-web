@@ -11,6 +11,8 @@ export default {
         secondary: "#D6A77A",
         accent: "#FFF8F2",
         grayCustom: "#888888",
+        'brown-dark': '#3d1f0f',
+        'brown-light': '#6B4226',
       },
     },
   },
