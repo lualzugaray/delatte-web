@@ -1,0 +1,519 @@
+/* Estilo principal */
+.cafe-details {
+    font-family: 'Montserrat', sans-serif;
+    color: #3d1f0f;
+    position: relative;
+    overflow: visible;
+    background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1rem;
+    background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
+}
+
+.label {
+    font-weight: bold;
+    font-size: 1.1rem;
+    margin-bottom: 0.3rem;
+    color: #3e2414;
+}
+
+.input {
+    padding: 0.5rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 0.4rem;
+}
+
+.input.short {
+    padding: 0.5rem;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 0.4rem;
+}
+
+.categoryRow .suggestButton {
+    padding: 0.6rem 2rem;
+    background-color: #6b4226;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.suggestButton:hover {
+    background-color: #4a2f1a;
+}
+
+textarea {
+    width: 100%;
+    font-size: 14px;
+    font-family: 'Montserrat', sans-serif;
+    min-height: 140px;
+    resize: vertical;
+}
+
+/* Galería */
+.gallery-box {
+    position: relative;
+    margin: 20px auto;
+    max-width: 100%;
+    height: 300px;
+}
+
+.gallery-swiper {
+    width: 100%;
+    height: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.gallery-swiper .swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gallery-swiper .gallery-img-carousel {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Flechas de navegación */
+.gallery-swiper .swiper-button-prev,
+.gallery-swiper .swiper-button-next {
+    color: #010101;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.modal-full-img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 10px;
+}
+
+.closeModal {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background-color: transparent;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #999;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.closeModal:hover {
+    color: #333;
+}
+
+/* Contenido de la cafetería */
+.cafe-header {
+    text-align: center;
+}
+
+.cafe-title h1 {
+    font-size: 2.2rem;
+    margin: 0;
+}
+
+.location {
+    font-size: 1rem;
+    color: #6b4226;
+}
+
+.manager-info {
+    font-size: 0.85rem;
+    color: #9b7860;
+}
+
+.aligned-box {
+    display: flex;
+    flex-direction: row;
+    gap: 2rem;
+}
+
+.description-box {
+    flex: 1;
+}
+
+.review-form-box {
+    flex: 1;
+}
+
+.description-box h2,
+.description-box h3 {
+    margin-bottom: 1rem;
+}
+
+.schedule-list {
+    list-style: none;
+    padding: 0;
+}
+
+.schedule-list li {
+    margin-bottom: 0.4rem;
+    color: #5c3c2e;
+}
+
+.review-rating {
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.review-comment {
+    font-style: italic;
+    margin-bottom: 0.3rem;
+}
+
+.review-author {
+    font-size: 0.85rem;
+    color: #a6836b;
+    text-align: right;
+}
+
+.review-img {
+    width: 30%;
+    max-height: 30%;
+    object-fit: cover;
+    border-radius: 6px;
+    margin-bottom: 0.5rem;
+}
+
+.review-tags {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tagSelectWrapper {
+    overflow-x: auto;
+}
+
+.tagSelect {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding: 10px;
+}
+
+.tagOption {
+    background-color: #eee;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 1rem;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.tagOption.selected {
+    background-color: #6b4226;
+    color: white;
+}
+
+.tagOption.moreButton {
+    background-color: #d2b48c;
+    color: #fff;
+}
+
+.tagOption.moreButton:hover {
+    background-color: #6b4226 !important;
+    color: #fff;
+}
+
+/* Si usás solo .tag en todo el proyecto, podrías unificar así: */
+.tag {
+    display: inline-block;
+    margin: 0.25rem 0 0.25rem 0;
+    padding: 0.25rem 0.75rem;
+    background-color: #f0f0f0;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    white-space: nowrap;
+  }
+
+  
+.no-reviews {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #9d7d6a;
+}
+
+.reviews-list {
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+}
+
+/* Tarjeta de usuario hover - ESTILOS CORREGIDOS */
+.user-hover-card {
+    background: #fff;
+    border: 1px solid #e6d9cf;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 1.2rem;
+    width: 260px;
+    max-width: 260px;
+    z-index: 10000 !important;
+    position: absolute !important;
+    pointer-events: auto !important;
+    animation: fadeIn 0.2s ease-in-out;
+    transition: all 0.3s ease;
+    /* Asegurar que sea visible */
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+}
+
+.user-hover-card h4 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem 0;
+    color: #3d1f0f;
+}
+
+.user-hover-card p {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #6f4d36;
+    margin: 0 0 0.7rem 0;
+    line-height: 1.3;
+}
+
+/* Redes como tags */
+.user-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.user-links a {
+    background-color: #f0e4dc;
+    color: #6b4226;
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.user-links a:hover {
+    background-color: #e6d0c2;
+}
+
+/* Asegurar que el contenedor del portal tenga el z-index correcto */
+#user-hover-root {
+    position: relative;
+    z-index: 10000;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Estilos para mejorar la visibilidad del hover */
+.review-card span[style*="cursor: pointer"] {
+    position: relative;
+    z-index: 1;
+}
+
+.review-card span[style*="cursor: pointer"]:hover {
+    text-decoration: underline !important;
+}
+
+/* Arreglos para la tarjeta de usuario hover */
+
+/* Asegurar que el contenedor principal no interfiera */
+.cafe-details {
+    font-family: 'Montserrat', sans-serif;
+    color: #3d1f0f;
+    position: relative;
+    overflow: visible;
+    background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
+    /* Eliminar cualquier z-index que pueda interferir */
+}
+
+/* Contenedor de reseñas con contexto de apilamiento apropiado */
+.reviews-list {
+    max-width: 800px;
+    margin: auto;
+    position: relative;
+    z-index: 1;
+    /* Asegurar que el contenedor tenga el contexto correcto */
+}
+
+/* Tarjeta de usuario hover - ESTILOS CORREGIDOS */
+.user-hover-card {
+    background: #fff;
+    border: 1px solid #e6d9cf;
+    border-radius: 12px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    padding: 1.2rem;
+    width: 260px;
+    max-width: 260px;
+    z-index: 999999 !important; /* Z-index muy alto */
+    position: fixed !important; /* Cambiar a fixed para evitar problemas de contexto */
+    pointer-events: auto !important;
+    animation: fadeIn 0.2s ease-in-out;
+    transition: all 0.3s ease;
+    /* Asegurar que sea visible */
+    opacity: 1 !important;
+    display: block !important;
+    visibility: visible !important;
+    /* Asegurar que esté por encima de todo */
+    transform: translateZ(0); /* Forzar layer de composición */
+}
+
+/* Alternativa: Si fixed no funciona bien, usar absolute con contenedor */
+.user-hover-card.absolute-positioned {
+    position: absolute !important;
+    z-index: 999999 !important;
+    /* Asegurar que esté por encima del contenedor padre */
+}
+
+.user-hover-card h4 {
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0 0 0.4rem 0;
+    color: #3d1f0f;
+}
+
+.user-hover-card p {
+    font-style: italic;
+    font-size: 0.9rem;
+    color: #6f4d36;
+    margin: 0 0 0.7rem 0;
+    line-height: 1.3;
+}
+
+/* Redes como tags */
+.user-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.user-links a {
+    background-color: #f0e4dc;
+    color: #6b4226;
+    border-radius: 20px;
+    padding: 0.3rem 0.8rem;
+    font-size: 0.8rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+}
+
+.user-links a:hover {
+    background-color: #e6d0c2;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Mejorar la visibilidad del elemento hover */
+.review-card span[style*="cursor: pointer"] {
+    position: relative;
+    z-index: 1;
+}
+
+.review-card span[style*="cursor: pointer"]:hover {
+    text-decoration: underline !important;
+}
+
+.cafe-content {
+    padding: 5rem;
+    background: linear-gradient(180deg, #f9fbfb 0%, #ffffff 100%);
+}
+/* Contenedor de tags: flex-wrap y separación */
+.cafe-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;            /* espacio entre tags */
+    margin: 0.5rem 0 1rem;  /* opcional: un poco de separación arriba/abajo */
+  }
+  
+  /* Estilo de cada tag */
+  .cafe-categories .tag {
+    display: inline-block;
+    padding: 0.25rem 0.75rem;
+    background-color: #e0e0e0;   /* gris claro */
+    border-radius: 9999px;       /* pill */
+    font-size: 0.875rem;         /* 14px */
+    white-space: nowrap;         /* que no se rompa por palabra */
+  }
+  
+
+.review-card {
+    background: #fff;
+    border: 1px solid #e6d9cf;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    position: relative;
+    z-index: 1;
+}
+
+/* Media queries */
+@media (max-width: 768px) {
+    .user-hover-card {
+        width: 240px;
+        max-width: 240px;
+        padding: 1rem;
+        /* Mantener el z-index alto en móvil */
+        z-index: 999999 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .aligned-box {
+        flex-direction: column-reverse;
+    }
+
+    .gallery-box {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    .user-hover-card {
+        width: 240px;
+        max-width: 240px;
+        padding: 1rem;
+    }
+}
