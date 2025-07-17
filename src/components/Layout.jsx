@@ -15,7 +15,6 @@ export default function Layout() {
       </header>
 
       <main className="flex-grow p-4">
-        <Outlet /> {/* 👉 Aquí se mostrará la ruta activa */}
       </main>
 {/* 
       <footer className="bg-gray-100 text-center text-sm text-gray-500 py-2">

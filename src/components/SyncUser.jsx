@@ -17,7 +17,7 @@ export function SyncUser() {
           });
           localStorage.setItem("token", res.data.token);
         } catch (err) {
-          console.error("Error al sincronizar cliente", err);
+          console.error(err);
         }
       }
     };

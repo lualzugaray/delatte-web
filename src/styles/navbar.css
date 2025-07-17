@@ -1,64 +1,59 @@
 .navbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 1.2rem 3rem;
-    font-family: 'Montserrat', sans-serif;
-  }
-  
-  /* Logo */
-  .logo {
-    height: 42px;
-    margin-right: 2rem;
-    cursor: pointer;
-  }
-  
-  /* Contenedor para logo + enlaces */
-  .nav-group {
-    display: flex;
-    align-items: center;
-    flex-grow: 1;
-  }
-  
-  /* Enlaces */
-  .nav-links {
-    display: flex;
-    gap: 2rem;
-    font-weight: 500;
-  }
-  
-  .nav-links a {
-    color: #3d1f0f;
-    text-decoration: none;
-    font-size: 1rem;
-    position: relative;
-    padding-bottom: 4px;
-    cursor: pointer;
-  }
-  
-  .nav-links a.active::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background-color: #3d1f0f;
-  }
-  
-  /* Botón */
-  .login-button {
-    background-color: #3d1f0f;
-    color: white;
-    border: none;
-    border-radius: 999px;
-    padding: 0.75rem 1.5rem;
-    font-size: 0.95rem;
-    font-weight: 500;
-    cursor: pointer;
-  }
-  
-  .nav-links a.active::after {
-    transition: width 0.3s ease;
-  }
-  
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 3rem;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.logo {
+  height: 42px;
+  margin-right: 2rem;
+  cursor: pointer;
+}
+
+.nav-group {
+  display: flex;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.nav-links {
+  display: flex;
+  gap: 2rem;
+  font-weight: 500;
+}
+
+.nav-links a {
+  color: #3d1f0f;
+  text-decoration: none;
+  font-size: 1rem;
+  position: relative;
+  padding-bottom: 4px;
+  cursor: pointer;
+}
+
+.nav-links a.active::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: #3d1f0f;
+}
+
+.login-button {
+  background-color: #3d1f0f;
+  color: white;
+  border: none;
+  border-radius: 999px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.nav-links a.active::after {
+  transition: width 0.3s ease;
+}

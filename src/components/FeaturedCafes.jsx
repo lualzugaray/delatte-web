@@ -14,11 +14,11 @@ export default function FeaturedCafes() {
                 if (Array.isArray(data)) {
                     setCafes(data);
                 } else {
-                    console.error("Expected array but got:", data);
+                    console.error(data);
                     setCafes([]);
                 }
             } catch (err) {
-                console.error("Error fetching cafes:", err);
+                console.error(err);
             }
         };
 

@@ -23,7 +23,7 @@ export default function ReviewForm({ cafeId, onReviewSent }) {
         axios
             .get(`${import.meta.env.VITE_API_URL}/categories?isActive=true`)
             .then((res) => setCategories(res.data))
-            .catch((err) => console.error("Error cargando categorías:", err));
+            .catch((err) => console.error(err));
     }, []);
 
     const handleImageUpload = async (e) => {
@@ -66,14 +66,6 @@ export default function ReviewForm({ cafeId, onReviewSent }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setSubmitting(true);
-        console.log({
-            cafeId,
-            rating,
-            comment,
-            image,
-            selectedCategoryIds: selectedCategories,
-            newCategoryNames: suggestedCategories,
-        });
         try {
             await axios.post(
                 `${import.meta.env.VITE_API_URL}/reviews`,
@@ -107,7 +99,6 @@ export default function ReviewForm({ cafeId, onReviewSent }) {
     return (
         <form onSubmit={handleSubmit} className="review-form">
             <div className="review-grid">
-                {/* Columna izquierda */}
                 <div className="left-column">
                     <label>Calificación:</label>
                     <select value={rating} onChange={(e) => setRating(Number(e.target.value))}>
@@ -120,7 +111,6 @@ export default function ReviewForm({ cafeId, onReviewSent }) {
                     <input type="file" accept="image/*" onChange={handleImageUpload} />
                 </div>
 
-                {/* Columna derecha */}
                 <div className="right-column">
                     <label>Comentario:</label>
                     <textarea

@@ -12,7 +12,7 @@ export default function AdvancedFilters({ onClose, onApply }) {
   useEffect(() => {
     axios.get("/api/categories?type=structural")
       .then(res => setCategorias(res.data))
-      .catch(err => console.error("Error loading categories", err));
+      .catch(err => console.error(err));
   }, []);
 
   const handleSubmit = () => {

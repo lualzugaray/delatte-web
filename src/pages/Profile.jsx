@@ -47,7 +47,7 @@ export default function Profile() {
             socialLinks: res.data.socialLinks || {}
           });
         })
-        .catch((err) => console.error("Error fetching user profile", err));
+        .catch((err) => console.error(err));
     }
   }, [token, navigate]);
 
@@ -60,7 +60,7 @@ export default function Profile() {
         .then((res) => {
           setFavorites(res.data);
         })
-        .catch((err) => console.error("Error fetching favorites", err));
+        .catch((err) => console.error(err));
     }
   }, [token]);
 
@@ -76,7 +76,7 @@ export default function Profile() {
         ])
       ),
     };
-  
+
     axios
       .put(`${import.meta.env.VITE_API_URL}/clients/me`, updatedFormData, {
         headers: { Authorization: `Bearer ${token}` },
@@ -98,11 +98,10 @@ export default function Profile() {
         toast.success("Perfil actualizado correctamente ✅");
       })
       .catch((err) => {
-        console.error("Error al actualizar el perfil", err);
         toast.error("Hubo un error al actualizar el perfil ❌");
       });
   };
-  
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -128,19 +127,17 @@ export default function Profile() {
       await axios.delete(`${import.meta.env.VITE_API_URL}/clients/me/favorites/${cafeId}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
-  
+
       toast.success("Café eliminado de favoritos");
-      // Vuelve a cargar los favoritos
       const res = await axios.get(`${import.meta.env.VITE_API_URL}/clients/me/favorites`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setFavorites(res.data);
     } catch (err) {
-      console.error("Error al eliminar favorito", err);
       toast.error("No se pudo eliminar de favoritos");
     }
   };
-  
+
 
   return (
     <>
@@ -254,7 +251,7 @@ export default function Profile() {
         <div className="profile-favorites">
           <h3>Mis Favoritos</h3>
           {favorites.length > 0 ? (
-            <FavoriteCafesCarousel cafes={favorites} favorites={favorites}  handleFavoriteToggle={handleFavoriteToggle}/>
+            <FavoriteCafesCarousel cafes={favorites} favorites={favorites} handleFavoriteToggle={handleFavoriteToggle} />
           ) : (
             <p>Aún no tienes cafeterías en tus favoritos.</p>
           )}

@@ -18,7 +18,7 @@ export default function Register() {
   const [activeTab, setActiveTab] = useState("client");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const [stage, setStage] = useState("form"); // 'form' o 'verify'
+  const [stage, setStage] = useState("form"); 
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -29,8 +29,20 @@ export default function Register() {
     setError(null);
     setLoading(true);
 
+
+    if (formData.password !== formData.confirmPassword) {
+      setError("Las contraseñas no coinciden");
+      setLoading(false);
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      setError("La contraseña debe tener al menos 8 caracteres");
+      setLoading(false);
+      return;
+    }
+
     try {
-      // 1. Registrar en Auth0
       const signupRes = await fetch(
         "https://dev-d82ap42lb6n7381y.us.auth0.com/dbconnections/signup",
         {
@@ -67,7 +79,6 @@ export default function Register() {
         return;
       }
 
-      // 2. Mostrar pantalla de verificación para ambos roles
       setStage("verify");
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");
@@ -81,7 +92,6 @@ export default function Register() {
     setLoading(true);
 
     try {
-      // 1. Login para obtener el token
       const loginRes = await fetch("https://dev-d82ap42lb6n7381y.us.auth0.com/oauth/token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -101,7 +111,6 @@ export default function Register() {
       const token = loginData.access_token;
       localStorage.setItem("token", token);
 
-      // 2. Sync con backend según rol
       const syncEndpoint =
         activeTab === "manager"
           ? `${import.meta.env.VITE_API_URL}/sync-manager`
@@ -126,11 +135,10 @@ export default function Register() {
         throw new Error(error.message || "Error al sincronizar usuario");
       }
 
-      // 3. Redirección
       if (activeTab === "manager") {
         navigate("/register-cafe");
       } else {
-        navigate("/");
+        navigate("/login");
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "Ocurrió un error inesperado.");

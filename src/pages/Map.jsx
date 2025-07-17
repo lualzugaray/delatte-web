@@ -12,7 +12,6 @@ import "leaflet/dist/leaflet.css";
 import "../styles/map.css";
 import L from "leaflet";
 
-// Icono personalizado con Google Icons (local_cafe)
 const cafeIcon = L.divIcon({
     className: "custom-marker-icon",
     html: `<span class="material-symbols-outlined">local_cafe</span>`,
@@ -45,7 +44,7 @@ export default function Map() {
         axios
             .get(`${import.meta.env.VITE_API_URL}/cafes`)
             .then((res) => setCafes(res.data))
-            .catch((err) => console.error("Error cargando cafés:", err));
+            .catch((err) => console.error(err));
     }, []);
 
     return (

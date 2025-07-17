@@ -17,20 +17,16 @@ export default function Home() {
   useEffect(() => {
     axios.get(`${import.meta.env.VITE_API_URL}/cafes`)
       .then((res) => {
-        console.log("📍 Tipo de respuesta:", typeof res.data);
-        console.log("📍 Respuesta completa:", res.data);
-
         if (Array.isArray(res.data)) {
           res.data.forEach((cafe) => {
             console.log(cafe.name, cafe.location);
           });
           setCafes(res.data);
         } else {
-          console.error("❌ La respuesta no es un array:", res.data);
         }
       })
 
-      .catch((err) => console.error("Error loading cafes:", err));
+      .catch((err) => console.error(err));
   }, []);
 
   return (

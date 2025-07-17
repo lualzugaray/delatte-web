@@ -40,11 +40,9 @@ export default function MyCafe() {
         `${import.meta.env.VITE_API_URL}/managers/me/cafe`,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // Transform schedule object into array
       const scheduleArray = Object.entries(data.schedule || {}).map(
         ([day, { open, close, isClosed }]) => ({ day, open, close, isClosed })
       );
-      // Data.categories comes as array of ID strings
       const initialCats = Array.isArray(data.categories) ? data.categories : [];
       setCafe(data);
       setFormData({
@@ -58,7 +56,6 @@ export default function MyCafe() {
       });
       setCoverPreview(data.coverImage || "");
     } catch (error) {
-      console.error("fetchCafe error:", error);
       toast.error("Error al cargar la cafetería");
     }
   };
@@ -66,7 +63,6 @@ export default function MyCafe() {
 
   const fetchCategories = async () => {
     try {
-      // use query parameter instead of structural path
       const { data } = await axios.get(
         `${import.meta.env.VITE_API_URL}/categories?type=structural&isActive=true`
       );
@@ -99,7 +95,6 @@ export default function MyCafe() {
     setFormData((prev) => ({ ...prev, categories: selected }));
   };
 
-  // Subida de portada a Cloudinary
   const handleCoverFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -125,7 +120,6 @@ export default function MyCafe() {
     }
   };
 
-  // Subida de galería a Cloudinary
   const handleGalleryFileChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -171,7 +165,6 @@ export default function MyCafe() {
 
   const handleSave = async () => {
     try {
-      // Convert schedule array back to object keyed by day
       const scheduleObj = (formData.schedule || []).reduce((acc, { day, open, close, isClosed }) => {
         acc[day] = { open, close, isClosed: !!(open || close) };
         return acc;
@@ -192,11 +185,9 @@ export default function MyCafe() {
         payload,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      // re-transform schedule
       const scheduleArray = Object.entries(data.cafe.schedule || {}).map(
         ([day, { open, close, isClosed }]) => ({ day, open, close, isClosed })
       );
-      // reset formData.categories from response IDs
       const savedCats = Array.isArray(data.cafe.categories)
         ? data.cafe.categories
         : [];
@@ -209,7 +200,6 @@ export default function MyCafe() {
       setIsEditing(false);
       toast.success("Cafetería actualizada correctamente ✅");
     } catch (error) {
-      console.error("handleSave error:", error);
       toast.error("Error al guardar los cambios ❌");
     }
   };
@@ -335,7 +325,7 @@ export default function MyCafe() {
             ))}
           </div>
 
-          
+
           <h3>Categorías</h3>
           {isEditing ? (
             <div className="tagSelectWrapper">

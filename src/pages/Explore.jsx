@@ -232,11 +232,14 @@ export default function Explore() {
                                 <FeaturedCafes />
                             </div>
                         ) : (
-                            <div className="explore-welcome">
-                                <h3>¿Buscando un buen café? ☕</h3>
-                                <p className="empty-subtext">
-                                    Usá los filtros para encontrar cafeterías según tus gustos :)
-                                </p>
+                            <div>
+                                <div className="explore-empty">
+                                    <h3>¿Buscando un buen café? ☕</h3>
+                                    <p className="empty-subtext">
+                                        Usá los filtros para encontrar cafeterías según tus gustos :)
+                                    </p>
+                                </div>
+                                <FeaturedCafes />
                             </div>
                         )
                     ) : (

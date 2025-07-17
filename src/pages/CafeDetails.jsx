@@ -32,48 +32,42 @@ export default function CafeDetails() {
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_API_URL}/cafes/${cafeId}`)
             .then(res => setCafe(res.data))
-            .catch(err => console.error("Error cargando el café:", err));
+            .catch(err => console.error(err));
     }, [cafeId]);
 
     useEffect(() => {
         if (cafeId) {
             axios.get(`${import.meta.env.VITE_API_URL}/reviews?cafeId=${cafeId}`)
                 .then(res => setReviews(res.data))
-                .catch(err => console.error("Error cargando reviews:", err));
+                .catch(err => console.error(err));
         }
     }, [cafeId]);
 
-    let leaveTimeout; // evita parpadeo cuando el mouse entra y sale
+    let leaveTimeout;
     const handleMouseEnter = async (userId, e) => {
         clearTimeout(leaveTimeout);
 
-        // Obtener posición relativa al viewport (para position: fixed)
         const rect = e.target.getBoundingClientRect();
 
-        // Calcular posición considerando el scroll
         const x = rect.left + window.scrollX;
         const y = rect.top + window.scrollY;
 
-        console.log("Mouse enter:", { userId, rect });
-        // Usar coordenadas fijas del viewport
         setUserCardPosition({
-            x: rect.left + 10, // Posición relativa al viewport
-            y: rect.top + 25   // Posición relativa al viewport
+            x: rect.left + 10,
+            y: rect.top + 25
         });
 
         try {
             const res = await axios.get(`${import.meta.env.VITE_API_URL}/clients/${userId}`);
             setHoveredUser(res.data);
         } catch (error) {
-            console.error("Error al cargar usuario", error);
+            console.error(error);
         }
     };
 
-    // Función alternativa usando position: absolute
     const handleMouseEnterAbsolute = async (userId, e) => {
         clearTimeout(leaveTimeout);
 
-        // Para position: absolute, necesitamos coordenadas relativas al documento
         const rect = e.target.getBoundingClientRect();
         const scrollX = window.scrollX || window.pageXOffset;
         const scrollY = window.scrollY || window.pageYOffset;
@@ -87,7 +81,7 @@ export default function CafeDetails() {
             const res = await axios.get(`${import.meta.env.VITE_API_URL}/clients/${userId}`);
             setHoveredUser(res.data);
         } catch (error) {
-            console.error("Error al cargar usuario", error);
+            console.error(error);
         }
     };
 
@@ -101,7 +95,6 @@ export default function CafeDetails() {
         <div className="cafe-details">
             <Navbar />
 
-            {/* Galería */}
             <div className="gallery-box">
                 <Swiper
                     slidesPerView={3}
@@ -142,7 +135,6 @@ export default function CafeDetails() {
 
             <section className="cafe-content">
                 <div className="aligned-box">
-                    {/* Left Column - Descripción */}
                     <div className="description-box">
                         <h2>Sobre este café</h2>
                         <p>{cafe.description}</p>
@@ -168,14 +160,12 @@ export default function CafeDetails() {
                         </ul>
                     </div>
 
-                    {/* Right Column - Deja tu reseña */}
                     <div className="review-form-box">
                         <h2>Dejá tu reseña</h2>
                         <ReviewForm cafeId={cafeId} onReviewSent={() => window.location.reload()} />
                     </div>
                 </div>
 
-                {/* Mapa de Google con la ubicación del café */}
                 <div className="google-map">
                     <h2>Ubicación</h2>
                     {isLoaded && cafe.location?.lat && cafe.location?.lng && (
@@ -192,7 +182,6 @@ export default function CafeDetails() {
                     )}
                 </div>
 
-                {/* Reseñas */}
                 <div className="reviews-list">
                     <h2 style={{ textAlign: "center" }}>Reseñas</h2>
                     {reviews.length === 0 ? (
@@ -225,10 +214,10 @@ export default function CafeDetails() {
                         <div
                             className="user-hover-card"
                             style={{
-                                position: "fixed", // Usar fixed en lugar de absolute
+                                position: "fixed",
                                 top: userCardPosition.y,
                                 left: userCardPosition.x,
-                                zIndex: 999999, // Z-index muy alto
+                                zIndex: 999999,
                             }}
                             onMouseEnter={() => clearTimeout(leaveTimeout)}
                             onMouseLeave={handleMouseLeave}

@@ -1,6 +1,5 @@
 .map-container {
     height: calc(100vh - 80px);
-    /* Ajustar según el alto del Navbar */
     width: 100%;
     z-index: 1;
 }

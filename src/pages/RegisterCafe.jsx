@@ -14,8 +14,8 @@ export default function RegisterCafe() {
         libraries,
     });
 
-    const cloudName = "dx4vlzl5r";
-    const uploadPreset = "delatte_unsigned";
+    const cloudName = import.meta.env.VITE_CLOUDINARY_CLOUD_NAME;
+    const uploadPreset = import.meta.env.VITE_CLOUDINARY_UPLOAD_PRESET;
     const addressRef = useRef();
     const fileInputRef = useRef();
     const navigate = useNavigate();
@@ -60,7 +60,6 @@ export default function RegisterCafe() {
             try {
                 const res = await fetch(`${import.meta.env.VITE_API_URL}/categories?type=structural&isActive=true`);
                 const data = await res.json();
-                console.log("Categorías cargadas:", data);
                 setCategories(data);
             } catch (err) {
                 toast.error("Error cargando categorías ❌");
@@ -115,7 +114,6 @@ export default function RegisterCafe() {
             return;
         }
 
-        // Si no hay coverImage seleccionada, usar la primera imagen de la galería
         const finalCoverImage = coverImage || gallery[0];
 
         setLoading(true);
@@ -126,14 +124,13 @@ export default function RegisterCafe() {
                 coverImage: finalCoverImage,
                 suggestedCategories: newCategories,
             }, token);
-            
+
             toast.success("¡Cafetería registrada con éxito! ✅");
-            
-            // Esperar 2 segundos antes de redirigir
+
             setTimeout(() => {
-                navigate("/explorar");
+                navigate("/login");
             }, 2000);
-            
+
         } catch (err) {
             toast.error(err.message || "Hubo un error al registrar la cafetería ❌");
         } finally {
@@ -163,7 +160,6 @@ export default function RegisterCafe() {
                 const data = await res.json();
                 uploadedImages.push(data.secure_url);
             } catch (err) {
-                console.error("Error subiendo imagen:", err);
                 toast.error("Error al subir imagen ❌");
             }
         }
@@ -322,7 +318,7 @@ export default function RegisterCafe() {
                     </button>
                 </div>
             </form>
-            <ToastContainer position="top-center" autoClose={3000} /> 
+            <ToastContainer position="top-center" autoClose={3000} />
         </div>
     );
 }

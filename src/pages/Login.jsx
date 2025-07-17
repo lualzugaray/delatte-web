@@ -25,13 +25,47 @@ export default function Login() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+  const translateError = (errorMessage) => {
+    const errorTranslations = {
+      'Wrong email or password': 'Correo electrónico o contraseña incorrectos',
+      'Invalid email or password': 'Correo electrónico o contraseña incorrectos',
+      'Wrong email or password.': 'Correo electrónico o contraseña incorrectos',
+      'Wrong username or password': 'Usuario o contraseña incorrectos',
+      'Invalid username or password': 'Usuario o contraseña incorrectos',
+      'Access denied': 'Acceso denegado',
+      'User not found': 'Usuario no encontrado',
+      'Too many attempts': 'Demasiados intentos. Intentá más tarde',
+      'Account blocked': 'Cuenta bloqueada',
+      'Account not verified': 'Cuenta no verificada',
+      'Email not verified': 'Email no verificado',
+      'Network error': 'Error de conexión',
+      'Server error': 'Error del servidor',
+      'Bad Request': 'Solicitud incorrecta',
+      'Unauthorized': 'No autorizado',
+      'Forbidden': 'Acceso prohibido',
+      'Not Found': 'No encontrado',
+      'Internal Server Error': 'Error interno del servidor'
+    };
+
+    if (errorTranslations[errorMessage]) {
+      return errorTranslations[errorMessage];
+    }
+
+    for (const [englishError, spanishError] of Object.entries(errorTranslations)) {
+      if (errorMessage.toLowerCase().includes(englishError.toLowerCase())) {
+        return spanishError;
+      }
+    }
+
+    return 'Error al iniciar sesión. Verificá tus credenciales';
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setLoading(true);
 
     try {
-      // 1. Login
       const tokenRes = await fetch(`${import.meta.env.VITE_API_URL}/auth0-login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -43,27 +77,22 @@ export default function Login() {
 
       const token = tokenData.access_token;
       localStorage.setItem("token", token);
-      console.log(token)
-
-      // 2. Obtener rol
       const userRes = await fetch(`${import.meta.env.VITE_API_URL}/users/role`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       const userData = await userRes.json();
       if (!userRes.ok) throw new Error(userData.error || "Error al obtener rol del usuario");
 
-      localStorage.setItem("user", JSON.stringify(userData)); 
+      localStorage.setItem("user", JSON.stringify(userData));
 
       const role = userData.role;
 
-      // 3. Lógica para manager
       if (role === "manager") {
         if (!userData.emailVerified) {
           navigate("/verify-email");
           return;
         }
 
-        // 4. Verificar si ya tiene café registrado
         const cafeRes = await fetch(`${import.meta.env.VITE_API_URL}/managers/me/cafe`, {
           headers: { Authorization: `Bearer ${token}` },
         });
@@ -71,20 +100,23 @@ export default function Login() {
         if (cafeRes.status === 404) {
           navigate("/register-cafe");
         } else if (cafeRes.ok) {
-          navigate("/dashboard");
+          navigate("/my-cafe");
         } else {
           const cafeData = await cafeRes.json();
-          throw new Error(cafeData.error || "Error al verificar el café");
+          const errorMessage = cafeData.error || cafeData.message || "Error al verificar el café";
+          throw new Error(translateError(errorMessage));
         }
 
         return;
       }
-
-      // Otros roles si hubiera
-      navigate("/dashboard");
+      navigate("/");
 
     } catch (err) {
-      setError(err.message);
+      if (err.message.includes('Correo electrónico') || err.message.includes('Error al')) {
+        setError(err.message);
+      } else {
+        setError(translateError(err.message));
+      }
     } finally {
       setLoading(false);
     }

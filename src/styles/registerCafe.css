@@ -107,7 +107,7 @@ input[type="checkbox"] {
 }
 
 .tagOption.moreButton:hover {
-    background-color:#6b4226 !important;
+    background-color: #6b4226 !important;
     color: #fff;
 }
 
@@ -265,7 +265,6 @@ input[type="checkbox"] {
     color: green;
 }
 
-/* Modal base */
 .modal {
     position: fixed;
     top: 0;
@@ -279,7 +278,6 @@ input[type="checkbox"] {
     z-index: 999;
 }
 
-/* Contenido del modal */
 .modal-content {
     background: #fff;
     padding: 2rem;
@@ -293,14 +291,12 @@ input[type="checkbox"] {
     font-family: 'Montserrat', sans-serif;
 }
 
-/* Título del modal */
 .modal-content h2 {
     margin-top: 0;
     font-size: 1.5rem;
     color: #3d1f0f;
 }
 
-/* Botones de categorías dentro del modal */
 .modal-tags {
     display: flex;
     flex-wrap: wrap;
@@ -327,7 +323,6 @@ input[type="checkbox"] {
     color: white;
 }
 
-/* Botón de cerrar modal */
 .closeModal {
     position: absolute;
     top: 12px;
