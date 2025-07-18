@@ -193,7 +193,7 @@ export default function Register() {
               {["email", "nombre", "apellido", "password", "confirmPassword"].map((field) => (
                 <input
                   key={field}
-                  type={field.includes("password") ? "password" : "text"}
+                  type={field === "password" || field === "confirmPassword" ? "password" : "text"}
                   name={field}
                   placeholder={
                     field === "email"
