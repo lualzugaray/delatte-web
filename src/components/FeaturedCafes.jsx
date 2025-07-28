@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import "../styles/featuredCafes.css";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function FeaturedCafes() {
     const [cafes, setCafes] = useState([]);
