@@ -30,10 +30,9 @@ export default function CafeDetails() {
     });
 
     useEffect(() => {
-        axios.get(`${import.meta.env.VITE_API_URL}/cafes/${cafeId}`)
-            .then(res => setCafe(res.data))
-            .catch(err => console.error(err));
+        if (cafeId) loadReviews();
     }, [cafeId]);
+    
 
     useEffect(() => {
         if (cafeId) {
@@ -84,6 +83,16 @@ export default function CafeDetails() {
             console.error(error);
         }
     };
+
+    const loadReviews = async () => {
+        try {
+            const res = await axios.get(`${import.meta.env.VITE_API_URL}/reviews?cafeId=${cafeId}`);
+            setReviews(res.data);
+        } catch (err) {
+            console.error(err);
+        }
+    };
+    
 
     const handleMouseLeave = () => {
         leaveTimeout = setTimeout(() => setHoveredUser(null), 200);
@@ -162,7 +171,7 @@ export default function CafeDetails() {
 
                     <div className="review-form-box">
                         <h2>Dejá tu reseña</h2>
-                        <ReviewForm cafeId={cafeId} onReviewSent={() => window.location.reload()} />
+                        <ReviewForm cafeId={cafeId} onReviewSent={loadReviews} />
                     </div>
                 </div>
 
