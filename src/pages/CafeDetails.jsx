@@ -30,18 +30,15 @@ export default function CafeDetails() {
     });
 
     useEffect(() => {
-        if (cafeId) loadReviews();
-    }, [cafeId]);
-    
-
-    useEffect(() => {
         if (cafeId) {
-            axios.get(`${import.meta.env.VITE_API_URL}/reviews?cafeId=${cafeId}`)
-                .then(res => setReviews(res.data))
-                .catch(err => console.error(err));
+            axios.get(`${import.meta.env.VITE_API_URL}/cafes/${cafeId}`)
+                .then(res => setCafe(res.data))
+                .catch(err => console.error("Error cargando el café:", err));
+            
+            loadReviews();
         }
     }, [cafeId]);
-
+    
     let leaveTimeout;
     const handleMouseEnter = async (userId, e) => {
         clearTimeout(leaveTimeout);
