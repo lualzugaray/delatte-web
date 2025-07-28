@@ -57,3 +57,36 @@
 .nav-links a.active::after {
   transition: width 0.3s ease;
 }
+
+.menu-toggle {
+  display: none;
+  font-size: 1.5rem;
+  background: none;
+  border: none;
+  color: #3d1f0f;
+  cursor: pointer;
+}
+
+.mobile-menu {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 1rem;
+  gap: 1rem;
+  position: absolute;
+  top: 60px;
+  left: 1rem;
+  right: 1rem;
+  z-index: 1000;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+}
+
+@media (max-width: 768px) {
+  .nav-links {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+}
