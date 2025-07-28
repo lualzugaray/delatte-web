@@ -92,7 +92,7 @@ export default function CafeMap({ cafes = [] }) {
                                 </span>
                             </div>
                             <button
-                                onClick={() => navigate(`/cafeteria/${selectedCafe._id}`)}
+                                onClick={() => navigate(`/cafes/${selectedCafe._id}`)}
                                 style={{
                                     padding: "6px 10px",
                                     fontSize: "0.8rem",
