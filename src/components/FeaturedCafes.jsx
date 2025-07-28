@@ -30,18 +30,18 @@ export default function FeaturedCafes() {
         const hasHalfStar = averageRating % 1 >= 0.25 && averageRating % 1 < 0.75;
         const emptyStars = 5 - fullStars - (hasHalfStar ? 1 : 0);
         const stars = [];
-      
+
         for (let i = 0; i < fullStars; i++) stars.push("star");
         if (hasHalfStar) stars.push("star_half");
         for (let i = 0; i < emptyStars; i++) stars.push("star_border");
-      
+
         return stars.map((icon, i) => (
-          <span key={i} className="material-icons">
-            {icon}
-          </span>
+            <span key={i} className="material-icons">
+                {icon}
+            </span>
         ));
-      };
-      
+    };
+
     return (
         <section className="featured-cafes">
             <h3>
@@ -53,13 +53,13 @@ export default function FeaturedCafes() {
                 {cafes.map((cafe) => (
                     <div className="cafe-card" key={cafe._id}>
                         <div className="cafe-options-wrapper">
-                            <a
-                                href={`/cafes/${cafe._id}`}
+                            <Link
+                                to={`/cafes/${cafe._id}`}
                                 className="cafe-options-icon"
                                 title="Ver detalles"
                             >
                                 <span className="material-symbols-outlined">arrow_outward</span>
-                            </a>
+                            </Link>
                         </div>
                         <img
                             src={cafe.coverImage || cafe.gallery?.[0] || "/default-cafe.jpg"}
